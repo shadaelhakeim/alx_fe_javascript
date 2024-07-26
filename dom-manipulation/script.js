@@ -46,32 +46,33 @@ document.addEventListener("DOMContentLoaded", () => {
   newQute.addEventListener("click", showRandomQuote);
 
   // adding quotes
-  function addQuote() {
+  async function addQuote() {
     const text = newQuoteText.value.trim();
     const category = newQuoteCategory.value.trim();
     if (text === "" || category === "") {
       alert("Please enter a quote and category");
       return;
-    } else {
-      quotes.push({ text, category });
-      populateCategories();
-      newQuoteText.value = "";
-      newQuoteCategory.value = "";
-      alert("Quote added successfully");
     }
-  }
-    //Check for posting data to the server using a mock API
+
+    const newQuote = { text, category };
+    quotes.push(newQuote);
+    newQuoteText.value = "";
+    newQuoteCategory.value = "";
+    saveQuotes();
+    populateCategories();
+    alert("Quote added successfully");
+    // post data to server
     try {
-      await fetch('https://jsonplaceholder.typicode.com/posts', {
-        method: 'POST',
+      await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(newQuote)
+        body: JSON.stringify(newQuote),
       });
-      console.log('Quote posted to server');
+      console.log("Quote posted to server");
     } catch (error) {
-      console.error('Error posting quote to server:', error);
+      console.error("Error posting quote to server:", error);
     }
   }
 
@@ -200,10 +201,5 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching data from server:", error);
     }
   }
-  // handle syncing quotes with the server
-  async function syncQuotes() {
-    await fetchQuotesFromServer();
-  }
-
   setInterval(fetchQuotesFromServer, 30000);
 });

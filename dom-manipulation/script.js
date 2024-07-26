@@ -200,5 +200,10 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching data from server:", error);
     }
   }
+  // handle syncing quotes with the server
+  async function syncQuotes() {
+    await fetchQuotesFromServer();
+  }
+
   setInterval(fetchQuotesFromServer, 30000);
 });

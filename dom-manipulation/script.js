@@ -153,6 +153,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return quotes.filter((quote) => quote.category === selectedCategory);
   }
 
+  async function syncQuotes() {
+    await fetchQuotesFromServer();
+  }
+  
   function filterQuotes() {
     showRandomQuote();
   }

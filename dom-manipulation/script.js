@@ -60,6 +60,32 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Quote added successfully");
     }
   }
+
+  
+  // Function to create the Add Quote Form
+  function createAddQuoteForm() {
+    const formDiv = document.createElement('div');
+    const quoteInput = document.createElement('input');
+    quoteInput.id = 'newQuoteText';
+    quoteInput.type = 'text';
+    quoteInput.placeholder = 'Enter a new quote';
+
+    const categoryInput = document.createElement('input');
+    categoryInput.id = 'newQuoteCategory';
+    categoryInput.type = 'text';
+    categoryInput.placeholder = 'Enter quote category';
+
+    const addButton = document.createElement('button');
+    addButton.textContent = 'Add Quote';
+    addButton.onclick = addQuote;
+
+    formDiv.appendChild(quoteInput);
+    formDiv.appendChild(categoryInput);
+    formDiv.appendChild(addButton);
+
+    document.body.appendChild(formDiv);
+  }
+
   // locaal storage, save quotes
   function saveQuotes() {
     localStorage.setItem("quotes", JSON.stringify(quotes));

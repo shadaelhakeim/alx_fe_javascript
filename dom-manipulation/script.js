@@ -61,22 +61,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  
   // Function to create the Add Quote Form
   function createAddQuoteForm() {
-    const formDiv = document.createElement('div');
-    const quoteInput = document.createElement('input');
-    quoteInput.id = 'newQuoteText';
-    quoteInput.type = 'text';
-    quoteInput.placeholder = 'Enter a new quote';
+    const formDiv = document.createElement("div");
+    const quoteInput = document.createElement("input");
+    quoteInput.id = "newQuoteText";
+    quoteInput.type = "text";
+    quoteInput.placeholder = "Enter a new quote";
 
-    const categoryInput = document.createElement('input');
-    categoryInput.id = 'newQuoteCategory';
-    categoryInput.type = 'text';
-    categoryInput.placeholder = 'Enter quote category';
+    const categoryInput = document.createElement("input");
+    categoryInput.id = "newQuoteCategory";
+    categoryInput.type = "text";
+    categoryInput.placeholder = "Enter quote category";
 
-    const addButton = document.createElement('button');
-    addButton.textContent = 'Add Quote';
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add Quote";
     addButton.onclick = addQuote;
 
     formDiv.appendChild(quoteInput);
@@ -142,6 +141,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function filterQuotes() {
     showRandomQuote();
   }
+  categoryFilter.addEventListener("change", filterQuotes);
+
   // global accese to function
   window.addQuote = addQuote;
   window.exportToJsonFile = exportToJsonFile;
@@ -162,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Simulate Server Interaction
 
-  async function fetchFromServer() {
+  async function fetchQuotesFromServer() {
     try {
       const response = await fetch(
         "https://jsonplaceholder.typicode.com/posts"
@@ -172,11 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
         text: post.title,
         category: "Server",
       }));
+      const combinedQuotes = [...newQuotes, ...quotes];
       quotes = [
-        ...new Set([
-          ...newQuotes,
-          ...quotes.map((quote) => JSON.stringify(quote)),
-        ]),
+        ...new Set(combinedQuotes.map((quote) => JSON.stringify(quote))),
       ].map((quote) => JSON.parse(quote));
       saveQuotes();
       populateCategories();
@@ -187,5 +186,5 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching data from server:", error);
     }
   }
-  setInterval(fetchFromServer, 30000);
+  setInterval(fetchQuotesFromServer, 30000);
 });

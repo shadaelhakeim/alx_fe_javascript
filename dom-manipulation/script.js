@@ -60,6 +60,20 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Quote added successfully");
     }
   }
+    //Check for posting data to the server using a mock API
+    try {
+      await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newQuote)
+      });
+      console.log('Quote posted to server');
+    } catch (error) {
+      console.error('Error posting quote to server:', error);
+    }
+  }
 
   // Function to create the Add Quote Form
   function createAddQuoteForm() {
